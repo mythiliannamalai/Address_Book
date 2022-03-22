@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
-
 namespace AddressBook
 {
     class ContactDetails
@@ -83,8 +82,6 @@ namespace AddressBook
                 ContactDetails contactDetails = new ContactDetails(FirstName, LastName, Address, City, State, Zipcode, PhoneNumber, EmailId);
                 contactDetailsList.Add(contactDetails);
                 contactDetailsMap[key] = contactDetails;
-            
-            
         }
         public void ComputeDetails()
         {
@@ -93,22 +90,35 @@ namespace AddressBook
                 Console.WriteLine(contact.toString());
             }
         }
+        public void DeleteContact()
+        {
+            Console.WriteLine("\nEnter The First name to Delete Contact ");
+            string input = Console.ReadLine();
+            if (contactDetailsMap.ContainsKey(input.ToLower()))
+            {
+                contactDetailsMap.Remove(input.ToLower());
+            }
+            else
+            {
+                Console.WriteLine("Key not found");
+            }
+        }
         public static void Main(string[] args)
         {
-            
-            Console.WriteLine("Welcome To  Addressook");              
-            
+            Console.WriteLine("Welcome To  Addressook");                        
             Console.WriteLine("How many Contact : ");
             int num = int.Parse(Console.ReadLine());
             for (int i=1; i <= num;i++)
             {
                 Program details = new Program();
                 int j = 1;
-                while (j <= 2)
+                while (j <= 3)
                 {
-                    Console.WriteLine("\n 1: To Add a Contact Details");
-                    Console.WriteLine("2: To Edit a Contact Details");
-                    Console.WriteLine("\n Enter your choice: ");
+                    Console.WriteLine("\n1: Add Contact");
+                    Console.WriteLine("2: Edit Contact");
+                    Console.WriteLine("3. Delet");
+                    Console.WriteLine("0. Exit");
+                    Console.WriteLine("\nEnter your choice: ");
                     int val = int.Parse(Console.ReadLine());
                     switch (val)
                     {
@@ -117,10 +127,16 @@ namespace AddressBook
                             details.ComputeDetails();
                             break;
                         case 2:
-                            Console.WriteLine("\n \n Enter a First Name to Edit");
+                            Console.WriteLine("\nEnter a First Name to Edit");
                             string key = Console.ReadLine();
                             details.EditDetails(key);
                             details.ComputeDetails();
+                            break;
+                        case 3:
+                            details.DeleteContact();
+                            break;
+                        case 0:
+                            Console.WriteLine("***Exit***");
                             break;
                         default:
                             Console.WriteLine("\n ***Wrong key***");
@@ -129,8 +145,6 @@ namespace AddressBook
                     j++;
                 }
             }
-             
         }
-            
     }
 }
