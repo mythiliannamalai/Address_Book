@@ -37,7 +37,7 @@ namespace AddressBook
              EmailId = Console.ReadLine();
             foreach (string contact in contactDetailsList)
             {
-                Console.WriteLine(contact);
+                Console.WriteLine("The Added Contact Detail :\n"+contact);
             }
         }
         public void AddDetails()
@@ -53,7 +53,7 @@ namespace AddressBook
             contactDetailMap.Add(FirstName,contactDetailsList);
             foreach (string contact in contactDetailsList)
             {
-                Console.WriteLine(contact);
+                Console.WriteLine("The Added Contact Detail :\n"+contact);
             }
         }
         public void EditDetails()
@@ -117,8 +117,12 @@ namespace AddressBook
                 }
                 foreach (string contact in contactDetailsList)
                 {
-                    Console.WriteLine(contact);
+                    Console.WriteLine("The Edited Contact Detail :\n"+contact);
                 }
+            }
+            else
+            {
+                Console.WriteLine("the name is not founded");
             }
         }
         public void DeleteContact()
@@ -128,6 +132,13 @@ namespace AddressBook
             contactDetailsList.RemoveRange(0, contactDetailsList.Count);
             contactDetailMap.Remove(FirstName);
             foreach (var contact in contactDetailsList)
+            {
+                Console.WriteLine(contact);
+            }
+        }
+        public void AllContact()
+        {
+            foreach (string contact in contactDetailsList)
             {
                 Console.WriteLine(contact);
             }
@@ -144,6 +155,7 @@ namespace AddressBook
                 Console.WriteLine("\n1: Add Contact");
                 Console.WriteLine("2: Edit Contact");
                 Console.WriteLine("3. Delet");
+                Console.WriteLine("4.Contact Details");
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 int val = int.Parse(Console.ReadLine());
@@ -164,6 +176,12 @@ namespace AddressBook
                         details.DeleteContact();
                         i++;
                         j++;
+                        break;
+                    case 4:
+                        Console.WriteLine("\n View to all contacte ");
+                        details.AllContact();
+                        j++;
+                        i++;
                         break;
                     case 0:
                         Console.WriteLine("***Exit***");
