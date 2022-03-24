@@ -56,6 +56,71 @@ namespace AddressBook
                 Console.WriteLine(contact);
             }
         }
+        public void EditDetails()
+        {
+            Console.WriteLine("Enter the first name :");
+            string y = Console.ReadLine();
+            if (y == FirstName)
+            {
+                Console.WriteLine("1.Edit First Name");
+                Console.WriteLine("2.Edit Last Name");
+                Console.WriteLine("3.Edit Address");
+                Console.WriteLine("4.Edit City");
+                Console.WriteLine("5.Edit State");
+                Console.WriteLine("6.Edit zipcode");
+                Console.WriteLine("7.Edit phone number");
+                Console.WriteLine("8.Edit Email id");
+                Console.WriteLine("Enter your choice :");
+                int a = int.Parse(Console.ReadLine());
+                switch (a)
+                {
+                    case 1:
+                        Console.WriteLine("Change First name");
+                        string fn = Console.ReadLine();
+                        contactDetailsList[0] = fn;
+                        break;
+                    case 2:
+                        Console.WriteLine("Change Laste name");
+                        string ln = Console.ReadLine();
+                        contactDetailsList[1] = ln;
+                        break;
+                    case 3:
+                        Console.WriteLine("Change Address");
+                        string add = Console.ReadLine();
+                        contactDetailsList[2] = add;
+                        break;
+                    case 4:
+                        Console.WriteLine("Change City");
+                        string ct = Console.ReadLine();
+                        contactDetailsList[3] = ct;
+                        break;
+                    case 5:
+                        Console.WriteLine("Change State");
+                        string st = Console.ReadLine();
+                        contactDetailsList[4] = st;
+                        break;
+                    case 6:
+                        Console.WriteLine("Change zip code");
+                        string zc = Console.ReadLine();
+                        contactDetailsList[5] = zc;
+                        break;
+                    case 7:
+                        Console.WriteLine("Change phone number");
+                        string ph = Console.ReadLine();
+                        contactDetailsList[6] = ph;
+                        break;
+                    case 8:
+                        Console.WriteLine("Change Email id");
+                        string eid = Console.ReadLine();
+                        contactDetailsList[7] = eid;
+                        break;
+                }
+                foreach (string contact in contactDetailsList)
+                {
+                    Console.WriteLine(contact);
+                }
+            }
+        }
         public static void Main(string[] args)
         {
             Console.WriteLine("Welcome To  Addressook");                      
@@ -66,6 +131,7 @@ namespace AddressBook
             do
             {
                 Console.WriteLine("\n1: Add Contact");
+                Console.WriteLine("2: Edit Contact");
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 int val = int.Parse(Console.ReadLine());
@@ -77,6 +143,12 @@ namespace AddressBook
                         i++;
                         j++;
                         break;
+                    case 2:
+                        details.EditDetails();
+                        i++;
+                        j++;
+                        break;
+
                     case 0:
                         Console.WriteLine("***Exit***");
                         i--;
