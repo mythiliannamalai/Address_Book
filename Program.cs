@@ -121,6 +121,17 @@ namespace AddressBook
                 }
             }
         }
+        public void DeleteContact()
+        {
+            Console.WriteLine("\nEnter The First name to Delete Contact ");
+            string FirstName = Console.ReadLine();
+            contactDetailsList.RemoveRange(0, contactDetailsList.Count);
+            contactDetailMap.Remove(FirstName);
+            foreach (var contact in contactDetailsList)
+            {
+                Console.WriteLine(contact);
+            }
+        }
         public static void Main(string[] args)
         {
             Console.WriteLine("Welcome To  Addressook");                      
@@ -132,6 +143,7 @@ namespace AddressBook
             {
                 Console.WriteLine("\n1: Add Contact");
                 Console.WriteLine("2: Edit Contact");
+                Console.WriteLine("3. Delet");
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 int val = int.Parse(Console.ReadLine());
@@ -148,7 +160,11 @@ namespace AddressBook
                         i++;
                         j++;
                         break;
-
+                    case 3:
+                        details.DeleteContact();
+                        i++;
+                        j++;
+                        break;
                     case 0:
                         Console.WriteLine("***Exit***");
                         i--;
