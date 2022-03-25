@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 namespace AddressBook
-{    
+{
     public class Program
-    {       
+    {
         ArrayList contactDetailsList = new ArrayList();
-        Dictionary<string,ArrayList> contactDetailMap = new Dictionary<string, ArrayList>();
+        Dictionary<string, ArrayList> contactDetailMap = new Dictionary<string, ArrayList>();
         public string FirstName;
         public string LastName;
         public string Address;
@@ -16,28 +16,28 @@ namespace AddressBook
         public string Zipcode;
         public string PhoneNumber;
         public string EmailId;
-                
+
         public void information()
         {
             Console.WriteLine("\n Enter Your First name");
-           FirstName = Console.ReadLine();
+            FirstName = Console.ReadLine();
             Console.WriteLine("Enter Your Last name");
             LastName = Console.ReadLine();
             Console.WriteLine("Enter Your Address");
-             Address = Console.ReadLine();
+            Address = Console.ReadLine();
             Console.WriteLine("Enter Your City");
-             City = Console.ReadLine();
+            City = Console.ReadLine();
             Console.WriteLine("Enter Your State");
             State = Console.ReadLine();
             Console.WriteLine("Enter Your Zipcode");
-            Zipcode =Console.ReadLine();
+            Zipcode = Console.ReadLine();
             Console.WriteLine("Enter Your Phone number");
-           PhoneNumber = Console.ReadLine();
+            PhoneNumber = Console.ReadLine();
             Console.WriteLine("Enter Your Email Id");
-             EmailId = Console.ReadLine();
+            EmailId = Console.ReadLine();
             foreach (string contact in contactDetailsList)
             {
-                Console.WriteLine("The Added Contact Detail :\n"+contact);
+                Console.WriteLine(contact);
             }
         }
         public void AddDetails()
@@ -50,10 +50,11 @@ namespace AddressBook
             contactDetailsList.Add(Zipcode);
             contactDetailsList.Add(PhoneNumber);
             contactDetailsList.Add(EmailId);
-            contactDetailMap.Add(FirstName,contactDetailsList);
+            contactDetailMap.Add(FirstName, contactDetailsList);
             foreach (string contact in contactDetailsList)
             {
-                Console.WriteLine("The Added Contact Detail :\n"+contact);
+                Console.WriteLine("\n");
+                Console.WriteLine(contact);
             }
         }
         public void EditDetails()
@@ -117,7 +118,7 @@ namespace AddressBook
                 }
                 foreach (string contact in contactDetailsList)
                 {
-                    Console.WriteLine("The Edited Contact Detail :\n"+contact);
+                    Console.WriteLine(contact);
                 }
             }
             else
@@ -145,9 +146,9 @@ namespace AddressBook
         }
         public static void Main(string[] args)
         {
-            Console.WriteLine("Welcome To  Addressook");                      
+            Console.WriteLine("Welcome To  Addressook");
             Program details = new Program();
-            
+
             int i = 1;
             int j = 1;
             do
@@ -163,7 +164,7 @@ namespace AddressBook
                 {
                     case 1:
                         details.information();
-                        details.AddDetails();                     
+                        details.AddDetails();
                         i++;
                         j++;
                         break;
@@ -196,3 +197,4 @@ namespace AddressBook
         }
     }
 }
+
