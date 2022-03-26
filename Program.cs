@@ -5,7 +5,7 @@ using System.Linq;
 namespace AddressBook
 {
     public class Program
-    {
+    {      
         ArrayList contactDetailsList = new ArrayList();
         Dictionary<string, ArrayList> contactDetailMap = new Dictionary<string, ArrayList>();
         public string FirstName;
@@ -15,8 +15,7 @@ namespace AddressBook
         public string State;
         public string Zipcode;
         public string PhoneNumber;
-        public string EmailId;
-
+        public string EmailId;       
         public void information()
         {
             Console.WriteLine("\n Enter Your First name");
@@ -35,10 +34,6 @@ namespace AddressBook
             PhoneNumber = Console.ReadLine();
             Console.WriteLine("Enter Your Email Id");
             EmailId = Console.ReadLine();
-            foreach (string contact in contactDetailsList)
-            {
-                Console.WriteLine(contact);
-            }
         }
         public void AddDetails()
         {
@@ -51,11 +46,6 @@ namespace AddressBook
             contactDetailsList.Add(PhoneNumber);
             contactDetailsList.Add(EmailId);
             contactDetailMap.Add(FirstName, contactDetailsList);
-            foreach (string contact in contactDetailsList)
-            {
-                Console.WriteLine("\n");
-                Console.WriteLine(contact);
-            }
         }
         public void EditDetails()
         {
@@ -72,7 +62,7 @@ namespace AddressBook
                 Console.WriteLine("7.Edit phone number");
                 Console.WriteLine("8.Edit Email id");
                 Console.WriteLine("Enter your choice :");
-                int a = int.Parse(Console.ReadLine());
+                int a= int.Parse(Console.ReadLine());
                 switch (a)
                 {
                     case 1:
@@ -116,10 +106,6 @@ namespace AddressBook
                         contactDetailsList[7] = eid;
                         break;
                 }
-                foreach (string contact in contactDetailsList)
-                {
-                    Console.WriteLine(contact);
-                }
             }
             else
             {
@@ -132,10 +118,6 @@ namespace AddressBook
             string FirstName = Console.ReadLine();
             contactDetailsList.RemoveRange(0, contactDetailsList.Count);
             contactDetailMap.Remove(FirstName);
-            foreach (var contact in contactDetailsList)
-            {
-                Console.WriteLine(contact);
-            }
         }
         public void AllContact()
         {
@@ -144,11 +126,9 @@ namespace AddressBook
                 Console.WriteLine(contact);
             }
         }
-        public static void Main(string[] args)
-        {
-            Console.WriteLine("Welcome To  Addressook");
+        public void FinalOut()
+        {          
             Program details = new Program();
-
             int i = 1;
             int j = 1;
             do
@@ -163,38 +143,71 @@ namespace AddressBook
                 switch (val)
                 {
                     case 1:
-                        details.information();
-                        details.AddDetails();
-                        i++;
-                        j++;
+                            details.information();
+                            details.AddDetails();
+                        Console.WriteLine("\n");
+                            details.AllContact();
+                        i++; j++;
                         break;
                     case 2:
-                        details.EditDetails();
-                        i++;
-                        j++;
+                            details.EditDetails();
+                        Console.WriteLine("\n");
+                        details.AllContact();
+                             i++; j++;
                         break;
                     case 3:
-                        details.DeleteContact();
-                        i++;
-                        j++;
+                            details.DeleteContact();
+                            details.AllContact();
+                             i++; j++;
                         break;
                     case 4:
-                        Console.WriteLine("\n View to all contacte ");
+                            Console.WriteLine("\n View to all contacte ");
+                        Console.WriteLine("\n");
                         details.AllContact();
-                        j++;
-                        i++;
+                             i++; j++;
                         break;
                     case 0:
                         Console.WriteLine("***Exit***");
-                        i--;
-                        j++;
+                        i--; j++;
                         break;
                     default:
                         Console.WriteLine("\n ***Wrong key***");
+
                         break;
                 }
             } while (i == j);
+        }      
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Welcome To  Addressook");
+            Program program = new Program();
+            int a = 1;
+            int b = 1;
+            do
+            {
+                Console.WriteLine("\n1.Office contact");
+                Console.WriteLine("2.Personal contact");
+                Console.WriteLine("0.Exit");
+                Console.WriteLine("choes your Address Book : ");
+                var CH = int.Parse(Console.ReadLine());                     
+                switch (CH)
+                {
+                    case 1:
+                        program.FinalOut();
+                        a++;b++;
+                        break;
+                    case 2:
+                        program.FinalOut();
+                        a++; b++;
+                        break;
+                    case 0:
+                        Console.WriteLine("****EXIT****");
+                        a++; b--;
+                        break;
+                }
+            }while(a == b);
         }
     }
 }
+
 
