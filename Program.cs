@@ -133,7 +133,8 @@ namespace AddressBook
             Console.WriteLine("Enter the city name :");
             string City = Console.ReadLine();
             bool MethodName(string City) => contactDetailsList.Contains(City);
-            var result = MethodName(City);            
+            var result = MethodName(City);
+            Console.WriteLine(contactDetailsList.Count);
             Console.WriteLine("Details :" + result);
         }
 
