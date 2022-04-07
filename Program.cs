@@ -37,15 +37,24 @@ namespace AddressBook
         }
         public void AddDetails()
         {
-            contactDetailsList.Add(FirstName);
-            contactDetailsList.Add(LastName);
-            contactDetailsList.Add(Address);
-            contactDetailsList.Add(City);
-            contactDetailsList.Add(State);
-            contactDetailsList.Add(Zipcode);
-            contactDetailsList.Add(PhoneNumber);
-            contactDetailsList.Add(EmailId);
-            contactDetailMap.Add(FirstName, contactDetailsList);
+            bool MethodName(string FirstName) => contactDetailsList.Contains(FirstName);
+            bool result = MethodName(FirstName);
+            if (result == true)
+            {
+                Console.WriteLine("This name is already in contact");
+            }
+            else
+            {
+                contactDetailsList.Add(FirstName);
+                contactDetailsList.Add(LastName);
+                contactDetailsList.Add(Address);
+                contactDetailsList.Add(City);
+                contactDetailsList.Add(State);
+                contactDetailsList.Add(Zipcode);
+                contactDetailsList.Add(PhoneNumber);
+                contactDetailsList.Add(EmailId);
+                contactDetailMap.Add(FirstName, contactDetailsList);
+            }
         }
         public void EditDetails()
         {
@@ -207,6 +216,7 @@ namespace AddressBook
                 }
             }while(a == b);
         }
+               
     }
 }
 
