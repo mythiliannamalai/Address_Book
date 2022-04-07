@@ -128,6 +128,15 @@ namespace AddressBook
             contactDetailsList.RemoveRange(0, contactDetailsList.Count);
             contactDetailMap.Remove(FirstName);
         }
+        public void SearchPerson()
+        {
+            Console.WriteLine("Enter the city name :");
+            string City = Console.ReadLine();
+            bool MethodName(string City) => contactDetailsList.Contains(City);
+            var result = MethodName(City);
+            Console.WriteLine("Details :" + result);
+        }
+
         public void AllContact()
         {
             foreach (string contact in contactDetailsList)
@@ -146,6 +155,7 @@ namespace AddressBook
                 Console.WriteLine("2: Edit Contact");
                 Console.WriteLine("3. Delet");
                 Console.WriteLine("4.Contact Details");
+                Console.WriteLine("5.search");
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 int val = int.Parse(Console.ReadLine());
@@ -174,6 +184,11 @@ namespace AddressBook
                         Console.WriteLine("\n");
                         details.AllContact();
                              i++; j++;
+                        break;
+                    case 5:
+                        details.SearchPerson();
+                        details.AllContact();
+                        i++; j++;
                         break;
                     case 0:
                         Console.WriteLine("***Exit***");
