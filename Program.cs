@@ -52,7 +52,7 @@ namespace AddressBook
                 contactDetailsList.Add(State);
                 contactDetailsList.Add(Zipcode);
                 contactDetailsList.Add(PhoneNumber);
-                contactDetailsList.Add(EmailId);
+                contactDetailsList.Add(EmailId);                
                 contactDetailMap.Add(FirstName, contactDetailsList);
             }
         }
@@ -133,7 +133,7 @@ namespace AddressBook
             Console.WriteLine("Enter the city name :");
             string City = Console.ReadLine();
             bool MethodName(string City) => contactDetailsList.Contains(City);
-            var result = MethodName(City);
+            var result = MethodName(City);            
             Console.WriteLine("Details :" + result);
         }
 
