@@ -16,7 +16,8 @@ namespace AddressBook
         public string State;
         public string Zipcode;
         public string PhoneNumber;
-        public string EmailId;       
+        public string EmailId;  
+        public string filepath = @"C:\Users\user\source\repos\ConsoleApp2\AddressBook.txt";
         public void information()
         {
             Console.WriteLine("\n Enter Your First name");
@@ -56,6 +57,7 @@ namespace AddressBook
                 contactDetailsList.Add(EmailId);                 
                 contactDetailMap.Add(FirstName, contactDetailsList);
                 Console.WriteLine(Print());
+                File.WriteAllLines(filepath, contactDetailsList);
             }
         }
         public void EditDetails()
@@ -161,13 +163,11 @@ namespace AddressBook
             return "\nFirst Name :" + FirstName + "\nLast Name :" + LastName + "\nAddress :" + Address + "\nCity:" + City + "\nstate :" + State + "\nzip code :" + Zipcode + "\nPhone number" + PhoneNumber + "\nemail :" + EmailId;
         }
         public void IoFile()
-        {
-            string filepath = @"C:\Users\user\source\repos\ConsoleApp2\AddressBook.txt";
-            List<string> list=new List<string>();
-            list=File.ReadAllLines(filepath).ToList();            
-            list.Add("lavanya,annamalai,jj st,salem,tamilnadu,636002,9790485285,lavanya@gmail.com");
-            File.WriteAllLines(filepath, list);
-            foreach (string line in list)
+        {            
+            contactDetailsList = File.ReadAllLines(filepath).ToList();
+            contactDetailsList.Add("lavanya,annamalai,jj st,Salem,tamilnadu,636002,9790485285,lavanya@gmail.com");
+            File.WriteAllLines(filepath, contactDetailsList);            
+            foreach (string line in contactDetailsList)
             {
                 Console.WriteLine(line);
             }
