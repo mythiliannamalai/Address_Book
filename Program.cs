@@ -6,8 +6,8 @@ namespace AddressBook
 {
     public class Program
     {      
-        ArrayList contactDetailsList = new ArrayList();
-        Dictionary<string, ArrayList> contactDetailMap = new Dictionary<string, ArrayList>();
+        List<string> contactDetailsList = new List<string>();
+        Dictionary<string,List<string>> contactDetailMap = new Dictionary<string,List<string>>();
         public string FirstName;
         public string LastName;
         public string Address;
@@ -52,8 +52,9 @@ namespace AddressBook
                 contactDetailsList.Add(State);
                 contactDetailsList.Add(Zipcode);
                 contactDetailsList.Add(PhoneNumber);
-                contactDetailsList.Add(EmailId);                
+                contactDetailsList.Add(EmailId);                 
                 contactDetailMap.Add(FirstName, contactDetailsList);
+                Console.WriteLine(Print());
             }
         }
         public void EditDetails()
@@ -115,6 +116,8 @@ namespace AddressBook
                         contactDetailsList[7] = eid;
                         break;
                 }
+                
+                Console.WriteLine(Print());
             }
             else
             {
@@ -127,6 +130,7 @@ namespace AddressBook
             string FirstName = Console.ReadLine();
             contactDetailsList.RemoveRange(0, contactDetailsList.Count);
             contactDetailMap.Remove(FirstName);
+            Console.WriteLine(Print());
         }
         public void SearchPerson()
         {
@@ -137,13 +141,24 @@ namespace AddressBook
             Console.WriteLine(contactDetailsList.Count);
             Console.WriteLine("Details :" + result);
         }
-
+        public void Sorting()
+        {
+            string[] sortlist=contactDetailMap.Keys.ToArray();
+            Array.Sort(sortlist);
+            foreach (var sort in sortlist)
+            {
+                Console.WriteLine(sort);
+            }
+        }
         public void AllContact()
         {
-            foreach (string contact in contactDetailsList)
-            {
-                Console.WriteLine(contact);
-            }
+            foreach(var contact in contactDetailsList)
+                Console.WriteLine(Print(),contact);
+        }
+        public string Print()
+        {
+            
+            return "\nFirst Name :" + FirstName + "\nLast Name :" + LastName + "\nAddress :" + Address + "\nCity:" + City + "\nstate :" + State + "\nzip code :" + Zipcode + "\nPhone number" + PhoneNumber + "\nemail :" + EmailId;
         }
         public void FinalOut()
         {          
@@ -157,6 +172,7 @@ namespace AddressBook
                 Console.WriteLine("3. Delet");
                 Console.WriteLine("4.Contact Details");
                 Console.WriteLine("5.search");
+                Console.WriteLine("6.Sorting");
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 int val = int.Parse(Console.ReadLine());
@@ -164,32 +180,28 @@ namespace AddressBook
                 {
                     case 1:
                             details.information();
-                            details.AddDetails();
-                        Console.WriteLine("\n");
-                            details.AllContact();
+                            details.AddDetails();                                                   
                         i++; j++;
                         break;
                     case 2:
-                            details.EditDetails();
-                        Console.WriteLine("\n");
-                        details.AllContact();
+                            details.EditDetails();                                              
                              i++; j++;
                         break;
                     case 3:
-                            details.DeleteContact();
-                            details.AllContact();
+                            details.DeleteContact();                            
                              i++; j++;
                         break;
                     case 4:
-                            Console.WriteLine("\n View to all contacte ");
-                        Console.WriteLine("\n");
+                            Console.WriteLine("\n View to all contacte ");       
                         details.AllContact();
                              i++; j++;
                         break;
                     case 5:
-                        details.SearchPerson();
-                        details.AllContact();
+                        details.SearchPerson();                        
                         i++; j++;
+                        break;
+                    case 6:
+                        details.Sorting();                        
                         break;
                     case 0:
                         Console.WriteLine("***Exit***");
