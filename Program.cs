@@ -143,17 +143,24 @@ namespace AddressBook
         }
         public void Sorting()
         {
-            string[] sortlist=contactDetailMap.Keys.ToArray();
-            Array.Sort(sortlist);
-            foreach (var sort in sortlist)
+            //string[] sortlist=contactDetailMap.Keys.ToArray();
+            //Array.Sort(sortlist);
+            //foreach (var sort in sortlist)
+            //{
+            //    Console.WriteLine(sort);
+            //}
+            var sortedList = contactDetailMap
+                .OrderBy(item => item.Value);
+                //.Select(item => item.Key);
+                foreach(var list in sortedList)
             {
-                Console.WriteLine(sort);
+                Console.WriteLine(list);
             }
         }
         public void AllContact()
         {
             foreach(var contact in contactDetailsList)
-                Console.WriteLine(Print(),contact);
+                Console.WriteLine(contact);
         }
         public string Print()
         {
