@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 namespace AddressBook
 {
     public class Program
@@ -143,18 +144,11 @@ namespace AddressBook
         }
         public void Sorting()
         {
-            //string[] sortlist=contactDetailMap.Keys.ToArray();
-            //Array.Sort(sortlist);
-            //foreach (var sort in sortlist)
-            //{
-            //    Console.WriteLine(sort);
-            //}
-            var sortedList = contactDetailMap
-                .OrderBy(item => item.Value);
-                //.Select(item => item.Key);
-                foreach(var list in sortedList)
+            string[] sortlist = contactDetailMap.Keys.ToArray();
+            Array.Sort(sortlist);
+            foreach (var sort in sortlist)
             {
-                Console.WriteLine(list);
+                Console.WriteLine(sort);
             }
         }
         public void AllContact()
@@ -163,9 +157,20 @@ namespace AddressBook
                 Console.WriteLine(contact);
         }
         public string Print()
-        {
-            
+        {            
             return "\nFirst Name :" + FirstName + "\nLast Name :" + LastName + "\nAddress :" + Address + "\nCity:" + City + "\nstate :" + State + "\nzip code :" + Zipcode + "\nPhone number" + PhoneNumber + "\nemail :" + EmailId;
+        }
+        public void IoFile()
+        {
+            string filepath = @"C:\Users\user\source\repos\ConsoleApp2\AddressBook.txt";
+            List<string> list=new List<string>();
+            list=File.ReadAllLines(filepath).ToList();            
+            list.Add("lavanya,annamalai,jj st,salem,tamilnadu,636002,9790485285,lavanya@gmail.com");
+            File.WriteAllLines(filepath, list);
+            foreach (string line in list)
+            {
+                Console.WriteLine(line);
+            }
         }
         public void FinalOut()
         {          
@@ -180,6 +185,7 @@ namespace AddressBook
                 Console.WriteLine("4.Contact Details");
                 Console.WriteLine("5.search");
                 Console.WriteLine("6.Sorting");
+                Console.WriteLine("7.Read and write file IO");
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 int val = int.Parse(Console.ReadLine());
@@ -209,6 +215,9 @@ namespace AddressBook
                         break;
                     case 6:
                         details.Sorting();                        
+                        break;
+                    case 7:
+                        details.IoFile();
                         break;
                     case 0:
                         Console.WriteLine("***Exit***");
@@ -250,8 +259,7 @@ namespace AddressBook
                         break;
                 }
             }while(a == b);
-        }
-               
+        }               
     }
 }
 
