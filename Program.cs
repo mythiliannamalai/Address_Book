@@ -198,6 +198,21 @@ namespace AddressBook
                     break;
             }
         }
+        public void IoFile()
+        {
+            string filepath = @"C:\Users\user\source\repos\ConsoleApp2\Iofile.txt";            
+            using (StreamWriter streamWriter = File.AppendText(filepath))
+            {                
+                foreach (var con in contactDetailsMap)
+                {
+                    streamWriter.WriteLine(con.Value.toString());
+                }
+                streamWriter.Close();
+            }
+            var val=File.ReadAllText(filepath);
+            Console.WriteLine(val);
+        }
+    
         public void FinalOut()
         {
             Program program=new Program();
@@ -212,6 +227,7 @@ namespace AddressBook
                 Console.WriteLine("6.count person");
                 Console.WriteLine("7.Sorting list");
                 Console.WriteLine("8.Sorting based on state ,city,and zipcode");
+                Console.WriteLine("9.Io file");
                 Console.WriteLine("0.Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 val = int.Parse(Console.ReadLine());
@@ -241,6 +257,9 @@ namespace AddressBook
                         break;
                     case 8:
                         program.Sorting_City_state_zipcode();
+                        break;
+                    case 9:
+                        program.IoFile();
                         break;
                     case 0:
                         Console.WriteLine("***Exit***");
