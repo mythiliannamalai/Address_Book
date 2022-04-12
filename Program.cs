@@ -152,6 +152,14 @@ namespace AddressBook
             var result = lists.Count;
             Console.WriteLine($"Total Persons in {City} & {State}:" + result);
         }
+        public void SortAssendingOrder()
+        {
+            var sortList = contactDetailsMap.OrderBy(x => x.Value.FirstName).ToList();
+            foreach (var item in sortList)
+            {
+                Console.WriteLine(item.Value.toString());
+            }
+        }        
         public void FinalOut()
         {
             Program program=new Program();
@@ -164,6 +172,7 @@ namespace AddressBook
                 Console.WriteLine("4.Contact Details");
                 Console.WriteLine("5.search");
                 Console.WriteLine("6.count person");
+                Console.WriteLine("7.Sorting list");
                 Console.WriteLine("0.Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 val = int.Parse(Console.ReadLine());
@@ -189,6 +198,9 @@ namespace AddressBook
                         break;
                     case 6:
                         program.PersonCount();
+                        break;
+                    case 7:
+                        program.SortAssendingOrder();
                         break;
                     case 0:
                         Console.WriteLine("***Exit***");
