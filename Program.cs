@@ -28,27 +28,30 @@ namespace AddressBook
             contactDetailsMap = new Dictionary<string, ContactDetails>();
         }
         public void AddDetails()
-        {
-            Console.WriteLine("\n Enter Your First name");
-            FirstName = Console.ReadLine();
-            Console.WriteLine("Enter Your Last name");
-           LastName = Console.ReadLine();
-            Console.WriteLine("Enter Your Address");
-            Address = Console.ReadLine();
-            Console.WriteLine("Enter Your City");
-            City = Console.ReadLine();
-            Console.WriteLine("Enter Your State");
-            State = Console.ReadLine();
-            Console.WriteLine("Enter Your Zipcode");
-            Zipcode = Console.ReadLine();
-            Console.WriteLine("Enter Your Phone number");
-            PhoneNumber = Console.ReadLine();
-            Console.WriteLine("Enter Your Email Id");
-            EmailId = Console.ReadLine();
-            ContactDetails contactDetails = new ContactDetails(FirstName, LastName, Address, City, State, Zipcode, PhoneNumber, EmailId);
-            contactDetailsList.Add(contactDetails);
-            contactDetailsMap.Add(FirstName, contactDetails);
-
+        {            
+                Console.WriteLine("\n Enter Your First name");
+                FirstName = Console.ReadLine();
+                Console.WriteLine("Enter Your Last name");
+                LastName = Console.ReadLine();
+                Console.WriteLine("Enter Your Address");
+                Address = Console.ReadLine();
+                Console.WriteLine("Enter Your City");
+                City = Console.ReadLine();
+                Console.WriteLine("Enter Your State");
+                State = Console.ReadLine();
+                Console.WriteLine("Enter Your Zipcode");
+                Zipcode = Console.ReadLine();
+                Console.WriteLine("Enter Your Phone number");
+                PhoneNumber = Console.ReadLine();
+                Console.WriteLine("Enter Your Email Id");
+                EmailId = Console.ReadLine();
+                ContactDetails contactDetails = new ContactDetails(FirstName, LastName, Address, City, State, Zipcode, PhoneNumber, EmailId);
+                contactDetailsList.Add(contactDetails);
+                contactDetailsMap.Add(FirstName, contactDetails);
+                foreach (var contact in contactDetailsMap)
+                {
+                    Console.WriteLine(contact.Value.toString());
+                }            
         }
         public void ComputeDetails()
         {
@@ -159,7 +162,42 @@ namespace AddressBook
             {
                 Console.WriteLine(item.Value.toString());
             }
-        }        
+        }
+        public void Sorting_City_state_zipcode()
+        {            
+            Console.WriteLine("1: Sort by City");
+            Console.WriteLine("2: Sort by State");
+            Console.WriteLine("3: Sort by Zip");
+            Console.WriteLine("Enter your option :");
+            int a = int.Parse(Console.ReadLine());
+            switch (a)
+            {
+                case 1:                    
+                    var sortingCity = contactDetailsMap.OrderBy(x => x.Value.City).ToList();
+                    foreach (var item in sortingCity)
+                    {
+                        Console.WriteLine(item.Value.toString());
+                    }
+                    break;
+                case 2:
+                    var sortingState = contactDetailsMap.OrderBy(x => x.Value.State).ToList();
+                    foreach (var item in sortingState)
+                    {
+                        Console.WriteLine(item.Value.toString());
+                    }
+                    break;
+                case 3:
+                    var sortingZip = contactDetailsMap.OrderBy(x => x.Value.Zipcode).ToList();
+                    foreach (var item in sortingZip)
+                    {
+                        Console.WriteLine(item.Value.toString());
+                    }
+                    break;
+                default:
+                    Console.WriteLine("Invalid input....");
+                    break;
+            }
+        }
         public void FinalOut()
         {
             Program program=new Program();
@@ -173,18 +211,17 @@ namespace AddressBook
                 Console.WriteLine("5.search");
                 Console.WriteLine("6.count person");
                 Console.WriteLine("7.Sorting list");
+                Console.WriteLine("8.Sorting based on state ,city,and zipcode");
                 Console.WriteLine("0.Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 val = int.Parse(Console.ReadLine());
                 switch (val)
                 {
                     case 1:
-                        program.AddDetails();
-                        program.ComputeDetails();
+                        program.AddDetails();                        
                         break;
                         case 2:
-                        program.EditDetails();
-                        program.ComputeDetails();
+                        program.EditDetails();                        
                         break ;
                         case 3:
                         program.DeleteContact();
@@ -201,6 +238,9 @@ namespace AddressBook
                         break;
                     case 7:
                         program.SortAssendingOrder();
+                        break;
+                    case 8:
+                        program.Sorting_City_state_zipcode();
                         break;
                     case 0:
                         Console.WriteLine("***Exit***");
