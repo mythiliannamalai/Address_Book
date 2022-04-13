@@ -14,14 +14,14 @@ namespace AddressBook
     {
         private List<ContactDetails> contactDetailsList;
         private Dictionary<string, ContactDetails> contactDetailsMap;
-        public string FirstName;
-        public string LastName;
-        public string Address;
-        public string City;
-        public string State;
-        public string Zipcode;
-        public string PhoneNumber;
-        public string EmailId;
+        //public string FirstName;
+        //public string LastName;
+        //public string Address;
+        //public string City;
+        //public string State;
+        //public string Zipcode;
+        //public string PhoneNumber;
+        //public string EmailId;
         public Program()
         {
             contactDetailsList = new List<ContactDetails>();
@@ -30,21 +30,21 @@ namespace AddressBook
         public void AddDetails()
         {            
                 Console.WriteLine("\n Enter Your First name");
-                FirstName = Console.ReadLine();
+            string FirstName = Console.ReadLine();
                 Console.WriteLine("Enter Your Last name");
-                LastName = Console.ReadLine();
+            string LastName = Console.ReadLine();
                 Console.WriteLine("Enter Your Address");
-                Address = Console.ReadLine();
+            string Address = Console.ReadLine();
                 Console.WriteLine("Enter Your City");
-                City = Console.ReadLine();
+            string City = Console.ReadLine();
                 Console.WriteLine("Enter Your State");
-                State = Console.ReadLine();
+            string State = Console.ReadLine();
                 Console.WriteLine("Enter Your Zipcode");
-                Zipcode = Console.ReadLine();
+            string Zipcode = Console.ReadLine();
                 Console.WriteLine("Enter Your Phone number");
-                PhoneNumber = Console.ReadLine();
+            string PhoneNumber = Console.ReadLine();
                 Console.WriteLine("Enter Your Email Id");
-                EmailId = Console.ReadLine();
+            string EmailId = Console.ReadLine();
                 ContactDetails contactDetails = new ContactDetails(FirstName, LastName, Address, City, State, Zipcode, PhoneNumber, EmailId);
                 contactDetailsList.Add(contactDetails);
                 contactDetailsMap.Add(FirstName, contactDetails);
@@ -65,52 +65,23 @@ namespace AddressBook
             Console.WriteLine("\nEnter the first name :");
             string key = Console.ReadLine();
             if (contactDetailsMap.ContainsKey(key))
-            {
-                Console.WriteLine("\n1.Edit First Name");
-                Console.WriteLine("2.Edit Last Name");
-                Console.WriteLine("3.Edit Address");
-                Console.WriteLine("4.Edit City");
-                Console.WriteLine("5.Edit State");
-                Console.WriteLine("6.Edit zipcode");
-                Console.WriteLine("7.Edit phone number");
-                Console.WriteLine("8.Edit Email id");
-                Console.WriteLine("Enter your choice :");
-                int a = int.Parse(Console.ReadLine());
-                switch (a)
-                {
-                    case 1:
-                        Console.WriteLine("Change First name");
-                        string fn = Console.ReadLine();                        
-                        break;
-                    case 2:
-                        Console.WriteLine("Change Laste name");
-                        string ln = Console.ReadLine();                        
-                        break;
-                    case 3:
-                        Console.WriteLine("Change Address");
-                        string add = Console.ReadLine();
-                        break;
-                    case 4:
-                        Console.WriteLine("Change City");
-                        string ct = Console.ReadLine();                        
-                        break;
-                    case 5:
-                        Console.WriteLine("Change State");
-                        string st = Console.ReadLine();                        
-                        break;
-                    case 6:
-                        Console.WriteLine("Change zip code");
-                        string zc = Console.ReadLine();                        
-                        break;
-                    case 7:
-                        Console.WriteLine("Change phone number");
-                        string ph = Console.ReadLine();                        
-                        break;
-                    case 8:
-                        Console.WriteLine("Change Email id");
-                        string eid = Console.ReadLine();                        
-                        break;
-                }
+            {                
+                Console.WriteLine("Change First name");
+                string FirstName = Console.ReadLine();                      
+                Console.WriteLine("Change Laste name");
+                string LastName = Console.ReadLine();                        
+                Console.WriteLine("Change Address");
+                string Address = Console.ReadLine();
+                Console.WriteLine("Change City");
+                string City = Console.ReadLine();                        
+                Console.WriteLine("Change State");
+                string State = Console.ReadLine();                        
+                Console.WriteLine("Change zip code");
+                string Zipcode = Console.ReadLine();                        
+                Console.WriteLine("Change phone number");
+                string PhoneNumber = Console.ReadLine();                        
+                Console.WriteLine("Change Email id");
+                string EmailId = Console.ReadLine();                        
                 ContactDetails contactDetails = new ContactDetails(FirstName, LastName, Address, City, State, Zipcode, PhoneNumber, EmailId);
                 contactDetailsList.Add(contactDetails);
                 contactDetailsMap[key]=contactDetails;               
@@ -212,7 +183,29 @@ namespace AddressBook
             var val=File.ReadAllText(filepath);
             Console.WriteLine(val);
         }
-    
+        public void CsvFile()
+        {
+            string path = @"C:\Users\user\source\repos\ConsoleApp2\CSVAddressBook.csv";            
+            using (var writer = new StreamWriter(path))
+            using (var csvwriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csvwriter.WriteHeader<ContactDetails>();
+                foreach (var contsct in contactDetailsList)
+                {
+                    csvwriter.NextRecord();
+                    csvwriter.WriteRecord(contsct);
+                }
+            }
+            using (TextReader reader = new StreamReader(path))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                var records = csv.GetRecords<ContactDetails>().ToList();
+                foreach (ContactDetails contacts in records)
+                {
+                    Console.WriteLine(contacts.toString());
+                }
+            }
+        }
         public void FinalOut()
         {
             Program program=new Program();
@@ -228,6 +221,7 @@ namespace AddressBook
                 Console.WriteLine("7.Sorting list");
                 Console.WriteLine("8.Sorting based on state ,city,and zipcode");
                 Console.WriteLine("9.Io file");
+                Console.WriteLine("10.CSV file");
                 Console.WriteLine("0.Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 val = int.Parse(Console.ReadLine());
@@ -260,6 +254,9 @@ namespace AddressBook
                         break;
                     case 9:
                         program.IoFile();
+                        break;
+                    case 10:
+                        program.CsvFile();
                         break;
                     case 0:
                         Console.WriteLine("***Exit***");
