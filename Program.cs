@@ -7,21 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Text.Json;
 
 namespace AddressBook
 {
     public class Program
     {
         private List<ContactDetails> contactDetailsList;
-        private Dictionary<string, ContactDetails> contactDetailsMap;
-        //public string FirstName;
-        //public string LastName;
-        //public string Address;
-        //public string City;
-        //public string State;
-        //public string Zipcode;
-        //public string PhoneNumber;
-        //public string EmailId;
+        private Dictionary<string, ContactDetails> contactDetailsMap;        
         public Program()
         {
             contactDetailsList = new List<ContactDetails>();
@@ -206,6 +200,15 @@ namespace AddressBook
                 }
             }
         }
+        public void JsonFile()
+        {            
+            string Jsondata=JsonSerializer.Serialize(contactDetailsList);
+            Console.WriteLine(Jsondata);
+            string Json = @"{FirstName':'mythili','LastName':'annamalai',
+              'Address':'nady','City':'salem','State':'tamilnadu','Zipcode':'978785','PhoneNumber':'9790486506','EmailId':'mythili@gmail.com'}";
+            ContactDetails con = JsonSerializer.Deserialize<ContactDetails>(Json);
+            Console.WriteLine(con.toString());
+        }
         public void FinalOut()
         {
             Program program=new Program();
@@ -222,6 +225,7 @@ namespace AddressBook
                 Console.WriteLine("8.Sorting based on state ,city,and zipcode");
                 Console.WriteLine("9.Io file");
                 Console.WriteLine("10.CSV file");
+                Console.WriteLine("11.Json file");
                 Console.WriteLine("0.Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 val = int.Parse(Console.ReadLine());
@@ -257,6 +261,9 @@ namespace AddressBook
                         break;
                     case 10:
                         program.CsvFile();
+                        break;
+                    case 11:
+                        program.JsonFile();
                         break;
                     case 0:
                         Console.WriteLine("***Exit***");
