@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Runtime.Serialization;
-using System.Text.Json;
+using Newtonsoft.Json;
+
+
 
 namespace AddressBook
 {
@@ -201,13 +202,19 @@ namespace AddressBook
             }
         }
         public void JsonFile()
-        {            
-            string Jsondata=JsonSerializer.Serialize(contactDetailsList);
-            Console.WriteLine(Jsondata);
-            string Json = @"{FirstName':'mythili','LastName':'annamalai',
-              'Address':'nady','City':'salem','State':'tamilnadu','Zipcode':'978785','PhoneNumber':'9790486506','EmailId':'mythili@gmail.com'}";
-            ContactDetails con = JsonSerializer.Deserialize<ContactDetails>(Json);
-            Console.WriteLine(con.toString());
+        {
+
+            string jsonpath = @"C:\Users\user\source\repos\ConsoleApp2\ConsoleApp2\AddressBook.json";
+            string jsonData =JsonConvert.SerializeObject(contactDetailsList);
+            using (StreamWriter writer = File.CreateText(jsonpath))
+            {
+                writer.Flush();
+                writer.Write(jsonData);
+                Console.WriteLine(jsonData);
+            }
+            string result=File.ReadAllText(jsonpath);
+
+            List<ContactDetails> contactDetails=JsonConvert.DeserializeObject<List<ContactDetails>>(result);
         }
         public void FinalOut()
         {
