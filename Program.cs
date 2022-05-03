@@ -15,154 +15,324 @@ namespace AddressBook
     public class Program
     {
         private List<ContactDetails> contactDetailsList;
-        private Dictionary<string, ContactDetails> contactDetailsMap;        
+        private Dictionary<string, ContactDetails> contactDetailsMap;
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = Address_Book_Service; Integrated Security=SSPI;";
+        static SqlConnection connection = new SqlConnection(connectionString);
         public Program()
         {
             contactDetailsList = new List<ContactDetails>();
             contactDetailsMap = new Dictionary<string, ContactDetails>();
         }
+        //UC-1 && UC-2 create contact and Add contact
+        //UC-5 create multiple address book
+        //UC-20 Add contact in Database
         public void AddDetails()
-        {            
-                Console.WriteLine("\n Enter Your First name");
-            string FirstName = Console.ReadLine();
-                Console.WriteLine("Enter Your Last name");
-            string LastName = Console.ReadLine();
-                Console.WriteLine("Enter Your Address");
-            string Address = Console.ReadLine();
-                Console.WriteLine("Enter Your City");
-            string City = Console.ReadLine();
-                Console.WriteLine("Enter Your State");
-            string State = Console.ReadLine();
-                Console.WriteLine("Enter Your Zipcode");
-            string Zipcode = Console.ReadLine();
-                Console.WriteLine("Enter Your Phone number");
-            string PhoneNumber = Console.ReadLine();
-                Console.WriteLine("Enter Your Email Id");
-            string EmailId = Console.ReadLine();
-                ContactDetails contactDetails = new ContactDetails(FirstName, LastName, Address, City, State, Zipcode, PhoneNumber, EmailId);
-                contactDetailsList.Add(contactDetails);
-                contactDetailsMap.Add(FirstName, contactDetails);
-                foreach (var contact in contactDetailsMap)
-                {
-                    Console.WriteLine(contact.Value.toString());
-                }            
-        }
-        public void ComputeDetails()
         {
-            foreach (var contact in contactDetailsMap)
+            List<ContactDetails> contacts = new List<ContactDetails>();
+            ContactDetails contactDetails = new ContactDetails();
+            Console.WriteLine("First Name :");
+            contactDetails.FirstName = Console.ReadLine();
+            Console.WriteLine("Last Name :");
+            contactDetails.LastName = Console.ReadLine();
+            Console.WriteLine("Address :");
+            contactDetails.Address = Console.ReadLine();
+            Console.WriteLine("City :");
+            contactDetails.City = Console.ReadLine();
+            Console.WriteLine("State :");
+            contactDetails.State = Console.ReadLine();
+            Console.WriteLine("Zip code :");
+            contactDetails.Zipcode = Console.ReadLine();
+            Console.WriteLine("Phone Number :");
+            contactDetails.PhoneNumber = Console.ReadLine();
+            Console.WriteLine("Email Id :");
+            contactDetails.EmailId = Console.ReadLine();
+            SqlConnection connection = new SqlConnection(connectionString);
+            string spname = "dbo.Add_Contacte";
+            using (connection)
             {
-                Console.WriteLine(contact.Value.toString());
+                SqlCommand sqlCommand = new SqlCommand(spname, connection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@FirstName", contactDetails.FirstName);
+                sqlCommand.Parameters.AddWithValue("@LastName", contactDetails.LastName);
+                sqlCommand.Parameters.AddWithValue("@Address", contactDetails.Address);
+                sqlCommand.Parameters.AddWithValue("@City", contactDetails.City);
+                sqlCommand.Parameters.AddWithValue("@State", contactDetails.State);
+                sqlCommand.Parameters.AddWithValue("@Zipcode", contactDetails.Zipcode);
+                sqlCommand.Parameters.AddWithValue("@PhoneNumber", contactDetails.PhoneNumber);
+                sqlCommand.Parameters.AddWithValue("@EmailId", contactDetails.EmailId);
+                connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                Console.WriteLine(contactDetails.FirstName + "," + contactDetails.LastName + "," + contactDetails.Address + ","
+                    + contactDetails.City + "," + contactDetails.State + "," + contactDetails.Zipcode, ","
+                    + contactDetails.PhoneNumber + "," + contactDetails.EmailId);
+                contacts.Add(contactDetails);
+                connection.Close();
             }
         }
+        //UC-3 Edit contact
+        //UC-17 Edit contact in Database
         public void EditDetails()
         {
-            Console.WriteLine("\nEnter the first name :");
-            string key = Console.ReadLine();
-            if (contactDetailsMap.ContainsKey(key))
-            {                
-                Console.WriteLine("Change First name");
-                string FirstName = Console.ReadLine();                      
-                Console.WriteLine("Change Laste name");
-                string LastName = Console.ReadLine();                        
-                Console.WriteLine("Change Address");
-                string Address = Console.ReadLine();
-                Console.WriteLine("Change City");
-                string City = Console.ReadLine();                        
-                Console.WriteLine("Change State");
-                string State = Console.ReadLine();                        
-                Console.WriteLine("Change zip code");
-                string Zipcode = Console.ReadLine();                        
-                Console.WriteLine("Change phone number");
-                string PhoneNumber = Console.ReadLine();                        
-                Console.WriteLine("Change Email id");
-                string EmailId = Console.ReadLine();                        
-                ContactDetails contactDetails = new ContactDetails(FirstName, LastName, Address, City, State, Zipcode, PhoneNumber, EmailId);
-                contactDetailsList.Add(contactDetails);
-                contactDetailsMap[key]=contactDetails;               
-            }
-            else
-            {
-                Console.WriteLine("the name is not founded");
-            }
+                List<ContactDetails> contactDetailsList = new List<ContactDetails>();
+                ContactDetails contactDetails = new ContactDetails();
+
+                SqlConnection connection = new SqlConnection(connectionString);
+                string spname = "dbo.Edit_Contact";
+                using (connection)
+                {
+                    SqlCommand sqlCommand = new SqlCommand(spname, connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    Console.WriteLine("Edit Contact");
+                    Console.WriteLine("--------------");
+                    Console.WriteLine("First Name :");
+                    contactDetails.FirstName = Console.ReadLine();
+                    sqlCommand.Parameters.AddWithValue("@FirstName", contactDetails.FirstName);
+                    Console.WriteLine("Last Name :");
+                    contactDetails.LastName = Console.ReadLine();
+                    sqlCommand.Parameters.AddWithValue("@LastName", contactDetails.LastName);
+                    Console.WriteLine("Address :");
+                    contactDetails.Address = Console.ReadLine();
+                    sqlCommand.Parameters.AddWithValue("@Address", contactDetails.Address);
+                    Console.WriteLine("City :");
+                    contactDetails.City = Console.ReadLine();
+                    sqlCommand.Parameters.AddWithValue("@City", contactDetails.City);
+                    Console.WriteLine("State :");
+                    contactDetails.State = Console.ReadLine();
+                    sqlCommand.Parameters.AddWithValue("@State", contactDetails.State);
+                    Console.WriteLine("Zip code :");
+                    contactDetails.Zipcode = Console.ReadLine();
+                    sqlCommand.Parameters.AddWithValue("@Zipcode", contactDetails.Zipcode);
+                    Console.WriteLine("Phone Number :");
+                    contactDetails.PhoneNumber = Console.ReadLine();
+                    sqlCommand.Parameters.AddWithValue("@PhoneNumber", contactDetails.PhoneNumber);
+                    Console.WriteLine("Email Id :");
+                    contactDetails.EmailId = Console.ReadLine();
+                    sqlCommand.Parameters.AddWithValue("@EmailId", contactDetails.EmailId);
+                    connection.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                contactDetails.FirstName = (string)reader["FirstName"];
+                                contactDetails.LastName = (string)reader["LastName"];
+                                contactDetails.Address = (string)reader["Address"];
+                                contactDetails.City = (string)reader["City"];
+                                contactDetails.State = (string)reader["State"];
+                                contactDetails.Zipcode = (string)reader["Zipcode"];
+                                contactDetails.PhoneNumber = (string)reader["PhoneNumber"];
+                                contactDetails.EmailId = (string)reader["EmailId"];
+                                contactDetailsList.Add(contactDetails);                                
+                                Console.WriteLine(contactDetails.FirstName + "," + contactDetails.LastName + "," + contactDetails.Address + ","
+                                    + contactDetails.City + "," + contactDetails.State + "," + contactDetails.Zipcode, ","
+                                   + contactDetails.PhoneNumber + "," + contactDetails.EmailId);
+                            }
+                            connection.Close();
+                        }
+                    }
+                }
+            
         }
+        //UC-4 Delete contact
         public void DeleteContact()
         {
-            Console.WriteLine("\nEnter The First name to Delete Contact ");
-            string FirstName = Console.ReadLine();
-            contactDetailsList.RemoveRange(0, contactDetailsList.Count);
-            contactDetailsMap.Remove(FirstName);            
-        }
-        public void SearchPerson()
-        {
-            Console.WriteLine("Enter the city name :");
-            string City = Console.ReadLine();
-            var list = contactDetailsList.FindAll(x => x.City == City);
-            var res = list;
-            foreach (var result in res)
+            List<ContactDetails> contacts = new List<ContactDetails>();
+            ContactDetails contactDetails = new ContactDetails();
+
+            SqlConnection connection = new SqlConnection(connectionString);
+            string spname = "dbo.Delete_Contact";
+            using (connection)
             {
-                Console.WriteLine(result.toString());
+                SqlCommand sqlCommand = new SqlCommand(spname, connection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                Console.WriteLine("Delete Contact");
+                Console.WriteLine("--------------");
+                Console.WriteLine("First Name :");
+                contactDetails.FirstName = Console.ReadLine();
+                sqlCommand.Parameters.AddWithValue("@FirstName", contactDetails.FirstName);
+                connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            contactDetails.FirstName = (string)reader["FirstName"];
+                            contactDetails.LastName = (string)reader["LastName"];
+                            contactDetails.Address = (string)reader["Address"];
+                            contactDetails.City = (string)reader["City"];
+                            contactDetails.State = (string)reader["State"];
+                            contactDetails.Zipcode = (string)reader["Zipcode"];
+                            contactDetails.PhoneNumber = (string)reader["PhoneNumber"];
+                            contactDetails.EmailId = (string)reader["EmailId"];
+                            contacts.Add(contactDetails);
+                            Console.WriteLine(contactDetails.FirstName + "," + contactDetails.LastName + "," + contactDetails.Address + ","
+                                + contactDetails.City + "," + contactDetails.State + "," + contactDetails.Zipcode, ","
+                               + contactDetails.PhoneNumber + "," + contactDetails.EmailId);
+                        }
+                        connection.Close();
+                    }
+                }
             }
-        }
+        }        
+        //UC-8 && 9 Persons by City or State
         public void PersonCount()
         {
-            Console.WriteLine("Person count based on state and city :");
-            Console.WriteLine("Enter City");
-            string City = Console.ReadLine();
-            Console.WriteLine("Enter state");
-            string State = Console.ReadLine();
-            var lists = contactDetailsList.FindAll(x => (x.City == City && x.State == State));
-            var res = lists;
-            foreach (var count in res)
+            List<ContactDetails> contacts = new List<ContactDetails>();
+            ContactDetails contactDetails = new ContactDetails();
+            SqlConnection connection = new SqlConnection(connectionString);
+            string spname = "dbo.GetDataIn_alphabeticalOrder";
+            using (connection)
             {
-                Console.WriteLine(count.toString());
+                SqlCommand sqlCommand = new SqlCommand(spname, connection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                Console.WriteLine("Retrive Contact based on city");
+                Console.WriteLine("-------------------------------------------------------------");
+                Console.WriteLine("Enter City :");
+                contactDetails.City = Console.ReadLine();
+                sqlCommand.Parameters.AddWithValue("@City", contactDetails.City);
+                connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            contactDetails.FirstName = (string)reader["FirstName"];
+                            contactDetails.LastName = (string)reader["LastName"];
+                            contactDetails.Address = (string)reader["Address"];
+                            contactDetails.City = (string)reader["City"];
+                            contactDetails.State = (string)reader["State"];
+                            contactDetails.Zipcode = (string)reader["Zipcode"];
+                            contactDetails.PhoneNumber = (string)reader["PhoneNumber"];
+                            contactDetails.EmailId = (string)reader["EmailId"];
+                            contacts.Add(contactDetails);
+                            Console.WriteLine(contactDetails.FirstName + "," + contactDetails.LastName + "," + contactDetails.Address + ","
+                                + contactDetails.City + "," + contactDetails.State + "," + contactDetails.Zipcode, ","
+                               + contactDetails.PhoneNumber + "," + contactDetails.EmailId);
+                        }
+                        connection.Close();
+                    }
+                }
             }
-            
-            var result = lists.Count;
-            Console.WriteLine($"Total Persons in {City} & {State}:" + result);
         }
+        //UC-10 sort the entries in the address book alphabetically by Person’s name
         public void SortAssendingOrder()
         {
-            var sortList = contactDetailsMap.OrderBy(x => x.Value.FirstName).ToList();
-            foreach (var item in sortList)
+            List<ContactDetails> contacts = new List<ContactDetails>();
+            ContactDetails contactDetails = new ContactDetails();
+
+            SqlConnection connection = new SqlConnection(connectionString);
+            string spname = "dbo.GetDataIn_alphabeticalOrder";
+            using (connection)
             {
-                Console.WriteLine(item.Value.toString());
+                SqlCommand sqlCommand = new SqlCommand(spname, connection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                Console.WriteLine("Retrive Contact based on city ot state by Alphabetical order");
+                Console.WriteLine("-------------------------------------------------------------");
+                Console.WriteLine("Enter City :");
+                contactDetails.City = Console.ReadLine();
+                sqlCommand.Parameters.AddWithValue("@City", contactDetails.City);
+                connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            contactDetails.FirstName = (string)reader["FirstName"];
+                            contactDetails.LastName = (string)reader["LastName"];
+                            contactDetails.Address = (string)reader["Address"];
+                            contactDetails.City = (string)reader["City"];
+                            contactDetails.State = (string)reader["State"];
+                            contactDetails.Zipcode = (string)reader["Zipcode"];
+                            contactDetails.PhoneNumber = (string)reader["PhoneNumber"];
+                            contactDetails.EmailId = (string)reader["EmailId"];
+                            contacts.Add(contactDetails);
+                            Console.WriteLine(contactDetails.FirstName + "," + contactDetails.LastName + "," + contactDetails.Address + ","
+                                + contactDetails.City + "," + contactDetails.State + "," + contactDetails.Zipcode, ","
+                               + contactDetails.PhoneNumber + "," + contactDetails.EmailId);
+                        }
+                        connection.Close();
+                    }
+                }
             }
         }
+        // UC-11 && 12 number of contact persons count by City or State
         public void Sorting_City_state_zipcode()
-        {            
-            Console.WriteLine("1: Sort by City");
-            Console.WriteLine("2: Sort by State");
-            Console.WriteLine("3: Sort by Zip");
-            Console.WriteLine("Enter your option :");
-            int a = int.Parse(Console.ReadLine());
-            switch (a)
+        {
+            List<ContactDetails> contacts = new List<ContactDetails>();
+            ContactDetails contactDetails = new ContactDetails();            
+                SqlConnection connection = new SqlConnection(connectionString);
+            string spname = "dbo.GetDataIn_alphabeticalOrder";
+            using (connection)
             {
-                case 1:                    
-                    var sortingCity = contactDetailsMap.OrderBy(x => x.Value.City).ToList();
-                    foreach (var item in sortingCity)
+                SqlCommand sqlCommand = new SqlCommand(spname, connection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                Console.WriteLine("1: Sort by City");
+                Console.WriteLine("2: Sort by State");
+                Console.WriteLine("3: Sort by Zip");
+                Console.WriteLine("Enter your option :");
+                int a = int.Parse(Console.ReadLine());
+                switch (a)
+                {
+                    case 1:
+                        Console.WriteLine("Retrive Contact based on city");
+                        Console.WriteLine("-------------------------------------------------------------");
+                        Console.WriteLine("Enter City :");
+                        contactDetails.City = Console.ReadLine();
+                        sqlCommand.Parameters.AddWithValue("@City", contactDetails.City);
+                        break;
+                    case 2:
+                        Console.WriteLine("Retrive Contact based on state");
+                        Console.WriteLine("-------------------------------------------------------------");
+                        Console.WriteLine("Enter State :");
+                        contactDetails.City = Console.ReadLine();
+                        sqlCommand.Parameters.AddWithValue("@State", contactDetails.State);
+                        break;
+                    case 3:
+                        Console.WriteLine("Retrive Contact based on Zipcode");
+                        Console.WriteLine("-------------------------------------------------------------");
+                        Console.WriteLine("Enter City :");
+                        contactDetails.City = Console.ReadLine();
+                        sqlCommand.Parameters.AddWithValue("@Zipcode", contactDetails.Zipcode);
+                        break;
+                    default:
+                        Console.WriteLine("Invalid input....");
+                        break;
+                }
+                connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    if (reader.HasRows)
                     {
-                        Console.WriteLine(item.Value.toString());
+                        while (reader.Read())
+                        {
+                            contactDetails.FirstName = (string)reader["FirstName"];
+                            contactDetails.LastName = (string)reader["LastName"];
+                            contactDetails.Address = (string)reader["Address"];
+                            contactDetails.City = (string)reader["City"];
+                            contactDetails.State = (string)reader["State"];
+                            contactDetails.Zipcode = (string)reader["Zipcode"];
+                            contactDetails.PhoneNumber = (string)reader["PhoneNumber"];
+                            contactDetails.EmailId = (string)reader["EmailId"];
+                            contacts.Add(contactDetails);
+                            Console.WriteLine(contactDetails.FirstName + "," + contactDetails.LastName + "," + contactDetails.Address + ","
+                                + contactDetails.City + "," + contactDetails.State + "," + contactDetails.Zipcode, ","
+                               + contactDetails.PhoneNumber + "," + contactDetails.EmailId);
+                        }
+                        connection.Close();
                     }
-                    break;
-                case 2:
-                    var sortingState = contactDetailsMap.OrderBy(x => x.Value.State).ToList();
-                    foreach (var item in sortingState)
-                    {
-                        Console.WriteLine(item.Value.toString());
-                    }
-                    break;
-                case 3:
-                    var sortingZip = contactDetailsMap.OrderBy(x => x.Value.Zipcode).ToList();
-                    foreach (var item in sortingZip)
-                    {
-                        Console.WriteLine(item.Value.toString());
-                    }
-                    break;
-                default:
-                    Console.WriteLine("Invalid input....");
-                    break;
+                }
             }
         }
+        //UC-13 IO file
         public void IoFile()
         {
             string filepath = @"C:\Users\user\source\repos\ConsoleApp2\Iofile.txt";            
@@ -177,6 +347,7 @@ namespace AddressBook
             var val=File.ReadAllText(filepath);
             Console.WriteLine(val);
         }
+        //UC -14 CSV File
         public void CsvFile()
         {
             string path = @"C:\Users\user\source\repos\ConsoleApp2\CSVAddressBook.csv";            
@@ -200,6 +371,7 @@ namespace AddressBook
                 }
             }
         }
+        //UC-15 Json file
         public void JsonFile()
         {
 
@@ -215,6 +387,7 @@ namespace AddressBook
 
             List<ContactDetails> contactDetails=JsonConvert.DeserializeObject<List<ContactDetails>>(result);
         }
+        //UC-16 Retrive data 
         public static List<ContactDetails> RetriveData()
         {
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = Address_Book_Service; Integrated Security=SSPI;";
@@ -282,11 +455,10 @@ namespace AddressBook
                         program.EditDetails();                        
                         break ;
                         case 3:
-                        program.DeleteContact();
-                        program.ComputeDetails() ;
+                        program.DeleteContact();                        
                         break ;
                     case 4:
-                        program.ComputeDetails();
+                        RetriveData();
                         break;
                     case 5:
                         program.SearchPerson();
