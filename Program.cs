@@ -177,9 +177,25 @@ namespace AddressBook
                     }
                 }
             }
-        }        
-        //UC-8 && 9 Persons by City or State
-        public void PersonCount()
+        }
+        //UC-6 && 7 create multiple address book and no duplicate
+        public void Create_Multi_AddressBook()
+        {
+            List<ContactDetails> contacts = new List<ContactDetails>();
+            ContactDetails contactDetails = new ContactDetails();
+            SqlConnection connection = new SqlConnection(connectionString);
+            string spname = "dbo.Create_Multipul_AddressBook";
+            using (connection)
+            {
+                SqlCommand sqlCommand = new SqlCommand(spname, connection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                connection.Close();                
+            }
+        }
+        //UC-8 && 9 Persons by City or State        
+        public void Person_City_State()
         {
             List<ContactDetails> contacts = new List<ContactDetails>();
             ContactDetails contactDetails = new ContactDetails();
@@ -218,6 +234,7 @@ namespace AddressBook
                         connection.Close();
                     }
                 }
+                
             }
         }
         //UC-10 sort the entries in the address book alphabetically by Person’s name
@@ -423,26 +440,73 @@ namespace AddressBook
                 }
                 return employees;
             }
-        }       
+        }
+        //UC-18 particular period
+        //UC-19 Count
+        public void Particular_period()
+        {
+            List<ContactDetails> contacts = new List<ContactDetails>();
+            ContactDetails contactDetails = new ContactDetails();
+            SqlConnection connection = new SqlConnection(connectionString);
+            string spname = "dbo.GetDataIn_alphabeticalOrder";
+            using (connection)
+            {
+                SqlCommand sqlCommand = new SqlCommand(spname, connection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                Console.WriteLine("Retrive Contact based on city");
+                Console.WriteLine("-------------------------------------------------------------");
+                Console.WriteLine("Enter City :");
+                contactDetails.City = Console.ReadLine();
+                sqlCommand.Parameters.AddWithValue("@City", contactDetails.City);
+                connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            contactDetails.FirstName = (string)reader["FirstName"];
+                            contactDetails.LastName = (string)reader["LastName"];
+                            contactDetails.Address = (string)reader["Address"];
+                            contactDetails.City = (string)reader["City"];
+                            contactDetails.State = (string)reader["State"];
+                            contactDetails.Zipcode = (string)reader["Zipcode"];
+                            contactDetails.PhoneNumber = (string)reader["PhoneNumber"];
+                            contactDetails.EmailId = (string)reader["EmailId"];
+                            contacts.Add(contactDetails);
+                            Console.WriteLine(contactDetails.FirstName + "," + contactDetails.LastName + "," + contactDetails.Address + ","
+                                + contactDetails.City + "," + contactDetails.State + "," + contactDetails.Zipcode, ","
+                               + contactDetails.PhoneNumber + "," + contactDetails.EmailId);
+                        }
+                        connection.Close();
+                    }
+                }
+                Console.WriteLine("Count :");
+                Console.WriteLine("-------");
+                Console.WriteLine( contacts.Count());
+            }
+        }
 
         public void FinalOut()
         {
             Program program=new Program();
+            program.Create_Multi_AddressBook();
             int val;
             do
             {
                 Console.WriteLine("\n1: Add Contact");
                 Console.WriteLine("2: Edit Contact");
                 Console.WriteLine("3. Delet");
-                Console.WriteLine("4.Contact Details");
-                Console.WriteLine("5.search");
-                Console.WriteLine("6.count person");
-                Console.WriteLine("7.Sorting list");
-                Console.WriteLine("8.Sorting based on state ,city,and zipcode");
-                Console.WriteLine("9.Io file");
-                Console.WriteLine("10.CSV file");
-                Console.WriteLine("11.Json file");
-                Console.WriteLine("12.Retrive sql data");
+                Console.WriteLine("4.Contact Details");                
+                Console.WriteLine("5.Person sort by city and state");
+                Console.WriteLine("6.Sorting list");
+                Console.WriteLine("7.Sorting based on state ,city,and zipcode");
+                Console.WriteLine("8.Io file");
+                Console.WriteLine("9.CSV file");
+                Console.WriteLine("10.Json file");
+                Console.WriteLine("11.Retrive sql data");
+                Console.WriteLine("12.Particular period and count");
                 Console.WriteLine("0.Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 val = int.Parse(Console.ReadLine());
@@ -460,29 +524,29 @@ namespace AddressBook
                     case 4:
                         RetriveData();
                         break;
-                    case 5:
-                        program.SearchPerson();
+                    case 5:                        
+                        program.Person_City_State();
                         break;
                     case 6:
-                        program.PersonCount();
-                        break;
-                    case 7:
                         program.SortAssendingOrder();
                         break;
-                    case 8:
+                    case 7:
                         program.Sorting_City_state_zipcode();
                         break;
-                    case 9:
+                    case 8:
                         program.IoFile();
                         break;
-                    case 10:
+                    case 9:
                         program.CsvFile();
                         break;
-                    case 11:
+                    case 10:
                         program.JsonFile();
                         break;
-                    case 12:
+                    case 11:
                         RetriveData();
+                        break;
+                    case 12:
+                        Particular_period();
                         break;
                     case 0:
                         Console.WriteLine("***Exit***");
