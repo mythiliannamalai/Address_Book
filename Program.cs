@@ -8,9 +8,8 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-
-
-
+using System.Data;
+using System.Data.SqlClient;
 namespace AddressBook
 {
     public class Program
@@ -216,6 +215,43 @@ namespace AddressBook
 
             List<ContactDetails> contactDetails=JsonConvert.DeserializeObject<List<ContactDetails>>(result);
         }
+        public static List<ContactDetails> RetriveData()
+        {
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = Address_Book_Service; Integrated Security=SSPI;";
+            SqlConnection connection = new SqlConnection(connectionString);
+            List<ContactDetails> employees = new List<ContactDetails>();
+            ContactDetails contactDetails = new ContactDetails();
+            string spname = "dbo.GetAllDataFromSQL";
+            using (connection)
+            {
+                SqlCommand sqlCommand = new SqlCommand(spname, connection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                connection.Open();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        contactDetails.FirstName = reader.GetString(0);
+                        contactDetails.LastName = reader.GetString(1);
+                        contactDetails.Address = reader.GetString(2);
+                        contactDetails.City = reader.GetString(3);
+                        contactDetails.State = reader.GetString(4);
+                        contactDetails.Zipcode = reader.GetString(5);
+                        contactDetails.PhoneNumber = reader.GetString(6);
+                        contactDetails.EmailId = reader.GetString(7);
+                        
+                        employees.Add(contactDetails);
+                        Console.WriteLine(contactDetails.FirstName + "," + contactDetails.LastName + "," + contactDetails.Address + 
+                            "," + contactDetails.City + "," + contactDetails.State + "," + contactDetails.Zipcode + "," +
+                            contactDetails.PhoneNumber + "," + contactDetails.EmailId);
+                    }
+                    connection.Close();
+                }
+                return employees;
+            }
+        }       
+
         public void FinalOut()
         {
             Program program=new Program();
@@ -233,6 +269,7 @@ namespace AddressBook
                 Console.WriteLine("9.Io file");
                 Console.WriteLine("10.CSV file");
                 Console.WriteLine("11.Json file");
+                Console.WriteLine("12.Retrive sql data");
                 Console.WriteLine("0.Exit");
                 Console.WriteLine("\nEnter your choice: ");
                 val = int.Parse(Console.ReadLine());
@@ -272,6 +309,9 @@ namespace AddressBook
                     case 11:
                         program.JsonFile();
                         break;
+                    case 12:
+                        RetriveData();
+                        break;
                     case 0:
                         Console.WriteLine("***Exit***");
                         break;
@@ -297,15 +337,12 @@ namespace AddressBook
                 {
                     case 1:
                         program.FinalOut();
-
                         break;
                     case 2:
                         program.FinalOut();
-
                         break;
                     case 0:
                         Console.WriteLine("****EXIT****");
-
                         break;
                 }
             } while (CH != 0);

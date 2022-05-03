@@ -30,6 +30,11 @@ namespace AddressBook
             this.PhoneNumber = PhoneNumber;
             this.EmailId = EmailId;
         }
+        public ContactDetails()
+        {
+
+        }
+
         public string toString()
         {
             return "\nFirst Name :" + FirstName + "\nLast Name :" + LastName + "\nAddress :" + Address + "\nCity:" + City + "\nstate :" + State + "\nzip code :" + Zipcode + "\nPhone number" + PhoneNumber + "\nemail :" + EmailId;
